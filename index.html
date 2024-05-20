@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="pop-up" id="pop-up"><img src="img/checked.png" alt=""><p>Password Copied</p></div>
+        <h1>Generate a <br><span>Random Password</span></h1>
+        <div class="display">
+            <input type="text" id="password" placeholder="password">
+            <button onclick="copyPassword()" id="copy">copy</button>
+        </div>
+        <button id="gen">Generate Password</button>
+    </div>
+    <script>
+        const passwordBox = document.getElementById("password");
+        const length = 12;
+
+        const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        const lowerCase = "abcdefghijklmnopqrstuvwxyz"
+        const number = "0123456789"
+        const symbol = "@#$%^&*()_+|<>?/-="
+        let button = document.getElementById('gen')
+        let popUp = document.getElementById("pop-up")
+        let copy = document.getElementById("copy")
+
+        
+
+        button.addEventListener("click", createPassword)
+
+        allCharct = upperCase + lowerCase + number + symbol
+        function createPassword(){
+            passwordBox.style.color = "black"
+            copy.disabled = false
+            copy.style.background = '#616161'
+
+
+
+            let password = "";
+            password += upperCase[Math.floor(Math.random()*upperCase.length)];
+            password += lowerCase[Math.floor(Math.random()*lowerCase.length)];
+            password += number[Math.floor(Math.random()*number.length)];
+            password += symbol[Math.floor(Math.random()*symbol.length)];
+            
+            while(length > password.length){
+                password += allCharct[Math.floor(Math.random()*allCharct.length)];
+
+            }
+            passwordBox.value = password
+        }
+
+        function copyPassword(){
+
+            if(passwordBox.value.length > 0){
+
+                passwordBox.select();
+                document.execCommand("copy")
+                setTimeout(() => {
+                    
+                    passwordBox.value = ''
+                    popUp.classList.add('open-popup')
+                    
+                    setTimeout( ()=>{
+                        popUp.classList.remove('open-popup')
+    
+                    },1000 )
+    
+                    
+                }, 100);
+            }else{
+                passwordBox.style.color = "red"
+                copy.style.background = 'red'
+                passwordBox.value = "Please Generate Password first"
+                
+                copy.disabled = true
+                
+                
+            }
+            
+
+        }
+    </script>
+</body>
+</html>
